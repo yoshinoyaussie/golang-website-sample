@@ -1,5 +1,20 @@
 # golang-website-sample
-Go言語でWebサイトを作ってみるサンプルです。フレームワークはEchoを使用しています。
+Go言語でWebサイトを作ってみるサンプルです。フレームワークは
+Echo https://echo.labstack.com/ 
+を使用しています。
+
+## 概要
+
+WebサイトのサーバーサイドをGoで一通り作っていっています。
+詳細につきましては以下のQiita記事を参照してください。
+
+### Go言語でWebサイトを作ってみる：
+
+* Hello World的な http://qiita.com/y_ussie/items/ca8dc5e423eec318a436
+* リクエストパラメータの扱い http://qiita.com/y_ussie/items/2d397e70bfc38f75ca51
+* セッションデータストアを作る http://qiita.com/y_ussie/items/b1db86b0b54ec69bb928
+* Cookieを使用したセッション管理 http://qiita.com/y_ussie/items/00e542cb3531b48fd21a
+* ひとまずコード整理 http://qiita.com/y_ussie/items/12bb4fd8cefb740581f8
 
 ## コード全体構成
 
