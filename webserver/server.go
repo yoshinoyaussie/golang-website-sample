@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"./model"
 	"./session"
 	"./setting"
 	"github.com/labstack/echo"
@@ -21,6 +22,9 @@ var templates map[string]*template.Template
 
 // セッション管理のインスタンス
 var sessionManager *session.Manager
+
+// データアクセサのインスタンス
+var userDA *model.UserDataAccessor
 
 // Template はHTMLテンプレートを利用するためのRenderer Interfaceです。
 type Template struct {
@@ -57,6 +61,10 @@ func main() {
 	sessionManager = &session.Manager{}
 	sessionManager.Start(e)
 
+	// データアクセサの開始
+	userDA = &model.UserDataAccessor{}
+	userDA.Start(e)
+
 	// サーバーを開始
 	go func() {
 		if err := e.Start(setting.Server.Port); err != nil {
@@ -75,6 +83,9 @@ func main() {
 		e.Logger.Info(err)
 		e.Close()
 	}
+
+	// データアクセサの停止
+	userDA.Stop()
 
 	// セッション管理を停止
 	sessionManager.Stop()
