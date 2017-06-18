@@ -15,6 +15,7 @@ WebサイトのサーバーサイドをGoで一通り作っていっています
 * セッションデータストアを作る http://qiita.com/y_ussie/items/b1db86b0b54ec69bb928
 * Cookieを使用したセッション管理 http://qiita.com/y_ussie/items/00e542cb3531b48fd21a
 * ひとまずコード整理 http://qiita.com/y_ussie/items/12bb4fd8cefb740581f8
+* ユーザー情報をJSONから読み込んで参照してみる http://qiita.com/y_ussie/items/8704ce209704bf191e63
 
 ## コード全体構成
 
@@ -25,7 +26,11 @@ WebサイトのサーバーサイドをGoで一通り作っていっています
     │  server.go   サーバーのメイン処理
     │  static.go   静的ファイルパスの定義
     │  template.go HTMLテンプレートの定義
-    ├─public     静的ファイル
+    ├─data       JSONファイルなど
+    │  users.json  ユーザー情報のJSONファイル
+    ├─model      データモデルとアクセサ
+    │  user.go     ユーザー情報のモデルとアクセサ
+    ├─public     静的ファイル
     │  ├─css       CSSファイル
     │  ├─img       画像ファイル
     │  └─js        JavaScriptファイル
@@ -38,5 +43,6 @@ WebサイトのサーバーサイドをGoで一通り作っていっています
     └─templates  HTMLテンプレート
             error.html        エラーメッセージ画面
             index.html        index画面
-            layout.html       共通レイアウト
+            layout.html       共通レイアウト
+            user.html         ユーザー情報の表示画面
 ```
