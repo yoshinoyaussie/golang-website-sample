@@ -15,4 +15,6 @@ func loadTemplates() {
 		template.ParseFiles(baseTemplate, "templates/error.html"))
 	templates["user"] = template.Must(
 		template.ParseFiles(baseTemplate, "templates/user.html"))
+	templates["login"] = template.Must(
+		template.ParseFiles(baseTemplate, "templates/login.html"))
 }

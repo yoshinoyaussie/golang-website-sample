@@ -1,0 +1,17 @@
+{{define "content"}}
+<h2>Login</h2>
+<form action="/login" method="POST">
+    <p>
+        <label for="userid" style="width:100px">User ID: </label>
+        <input type="text" id="userid" name="userid" value="{{.user_id}}" />
+    </p>
+    <p>
+        <label for="password" style="width:100px">Password: </label>
+        <input type="password" id="password" name="password" value="{{.password}}" />
+    </p>
+    <input type="submit" value="ログイン" style="width:100px"/>
+</form>
+<p>
+    {{.msg}}
+</p>
+{{end}}

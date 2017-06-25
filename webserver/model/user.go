@@ -1,8 +1,11 @@
 package model
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"io"
 	"io/ioutil"
 
 	"github.com/labstack/echo"
@@ -70,6 +73,16 @@ func (a *UserDataAccessor) FindByUserID(reqUserID string, option FindOption) ([]
 	}
 	e.Logger.Debugf("User[UserID=%s] Find Error. [%s]", reqUserID, ErrorOther)
 	return res, ErrorOther
+}
+
+// EncodeStringMD5 は、MD5エンコードした文字列を返します。
+func EncodeStringMD5(str string) StringMD5 {
+	h := md5.New()
+	io.WriteString(h, str)
+	encodeStr := hex.EncodeToString(h.Sum(nil))
+	res := StringMD5(encodeStr)
+
+	return res
 }
 
 // FindOption は検索時のオプションを定義します。
