@@ -16,13 +16,15 @@ WebサイトのサーバーサイドをGoで一通り作っていっています
 * Cookieを使用したセッション管理 http://qiita.com/y_ussie/items/00e542cb3531b48fd21a
 * ひとまずコード整理 http://qiita.com/y_ussie/items/12bb4fd8cefb740581f8
 * ユーザー情報をJSONから読み込んで参照してみる http://qiita.com/y_ussie/items/8704ce209704bf191e63
+* ログインしたユーザーしか見られないページを作ってみる http://qiita.com/y_ussie/items/45d916f741e12c4ec9b7
 
 ## コード全体構成
 
 ```
 /
 └─webserver
-    │  handler.go  リクエストハンドラの定義
+    │  auth.go     認証関連の処理
+    │  handler.go  リクエストハンドラの定義
     │  server.go   サーバーのメイン処理
     │  static.go   静的ファイルパスの定義
     │  template.go HTMLテンプレートの定義
@@ -44,5 +46,6 @@ WebサイトのサーバーサイドをGoで一通り作っていっています
             error.html        エラーメッセージ画面
             index.html        index画面
             layout.html       共通レイアウト
+            login.html        ログイン画面
             user.html         ユーザー情報の表示画面
 ```
