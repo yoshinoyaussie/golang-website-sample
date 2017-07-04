@@ -1,0 +1,16 @@
+{{define "content"}}
+<h2>Administrator Page</h2>
+<table>
+<tr>
+<th>User ID</th><th>Full Name</th>
+</tr>
+{{range .}}
+<tr>
+<td>{{.UserID}}</td><td>{{.FullName}}</td>
+</tr>
+{{end}}
+</table>
+<form action="/logout" method="POST">
+    <input type="submit" value="ログアウト" style="width:100px"/>
+</form>
+{{end}}

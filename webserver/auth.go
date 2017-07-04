@@ -84,3 +84,37 @@ func CheckUserID(c echo.Context, userID string) error {
 
 	return nil
 }
+
+// CheckRole は指定された権限を持ったユーザーでログインしているか確認します。
+func CheckRole(c echo.Context, role model.Role) (bool, error) {
+	sessionID, err := session.ReadCookie(c)
+	if err != nil {
+		return false, err
+	}
+	sessionStore, err := sessionManager.LoadStore(sessionID)
+	if err != nil {
+		return false, err
+	}
+	sessionUserID, ok := sessionStore.Data["user_id"]
+	if !ok {
+		return false, ErrorNotLoggedIn
+	}
+	haveRole, err := CheckRoleByUserID(sessionUserID, role)
+	return haveRole, nil
+}
+
+// CheckRoleByUserID はユーザーが指定された権限を持っているか確認します。
+func CheckRoleByUserID(userID string, role model.Role) (bool, error) {
+	users, err := userDA.FindByUserID(userID, model.FindFirst)
+	if err != nil {
+		return false, err
+	}
+	user := &users[0]
+	for _, v := range user.Roles {
+		if v == role {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}

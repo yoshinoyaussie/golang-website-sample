@@ -17,6 +17,7 @@ type User struct {
 	UserID   string    `json:"user_id"`
 	Password StringMD5 `json:"password"`
 	FullName string    `json:"full_name"`
+	Roles    []Role    `json:"role"`
 }
 
 // Copy は情報のコピーを行います。
@@ -25,6 +26,8 @@ func (u *User) Copy(f *User) {
 	u.UserID = f.UserID
 	u.Password = f.Password
 	u.FullName = f.FullName
+	u.Roles = make([]Role, len(f.Roles))
+	copy(u.Roles, f.Roles)
 }
 
 // UserDataAccessor はユーザーの情報を操作するAPIを提供します。
@@ -38,6 +41,15 @@ type ID string
 
 // StringMD5 はMD5ハッシュ化された文字列です。
 type StringMD5 string
+
+// Role はユーザーの権限を表します。
+type Role string
+
+// ユーザー権限の定義
+const (
+	RoleAdmin Role = "admin"
+	RoleUser  Role = "user"
+)
 
 // Start はAccessorの開始を行います。
 func (a *UserDataAccessor) Start(echo *echo.Echo) error {
@@ -53,6 +65,26 @@ func (a *UserDataAccessor) Start(echo *echo.Echo) error {
 // Stop はAccessorの停止を行います。
 func (a *UserDataAccessor) Stop() {
 	a.stopCh <- struct{}{}
+}
+
+// FindAll はユーザーを全件検索します。
+func (a *UserDataAccessor) FindAll() ([]User, error) {
+	respCh := make(chan response, 1)
+	defer close(respCh)
+	req := []interface{}{}
+	cmd := command{commandFindAll, req, respCh}
+	a.commandCh <- cmd
+	resp := <-respCh
+	var res []User
+	if resp.err != nil {
+		e.Logger.Debugf("User Find Error. [%s]", resp.err)
+		return res, resp.err
+	}
+	if res, ok := resp.result[0].([]User); ok {
+		return res, nil
+	}
+	e.Logger.Debugf("User Find Error. [%s]", ErrorOther)
+	return res, ErrorOther
 }
 
 // FindByUserID はUserIDでユーザーを検索します。
@@ -133,7 +165,8 @@ var users map[ID]User
 type commandType int
 
 const (
-	commandFindByID     commandType = iota // IDで検索
+	commandFindAll      commandType = iota // 全件検索
+	commandFindByID                        // IDで検索
 	commandFindByUserID                    // UserIDで検索
 )
 
@@ -163,6 +196,17 @@ loop:
 		select {
 		case cmd := <-a.commandCh:
 			switch cmd.cmdType {
+			// 全件検索
+			case commandFindAll:
+				results := []User{}
+				for _, x := range users {
+					user := User{}
+					user.Copy(&x)
+					results = append(results, user)
+				}
+				res := []interface{}{results}
+				cmd.responseCh <- response{res, nil}
+				break
 			// IDで検索
 			case commandFindByID:
 				// 未実装

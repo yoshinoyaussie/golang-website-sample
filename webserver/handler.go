@@ -16,6 +16,8 @@ func setRoute(e *echo.Echo) {
 	e.POST("/logout", handleLogoutPost)
 	e.GET("/users/:user_id", handleUsers)
 	e.POST("/users/:user_id", handleUsers)
+	e.GET("/admin", handleAdmin)
+	e.POST("/admin", handleAdmin)
 }
 
 // GET:/
@@ -29,7 +31,7 @@ func handleUsers(c echo.Context) error {
 	userID := c.Param("user_id")
 	err := CheckUserID(c, userID)
 	if err != nil {
-		c.Echo().Logger.Debugf("User Page[%s] Roll Error. [%s]", userID, err)
+		c.Echo().Logger.Debugf("User Page[%s] Role Error. [%s]", userID, err)
 		msg := "ログインしていません。"
 		return c.Render(http.StatusOK, "error", msg)
 	}
@@ -39,6 +41,25 @@ func handleUsers(c echo.Context) error {
 	}
 	user := users[0]
 	return c.Render(http.StatusOK, "user", user)
+}
+
+// GET:/admin
+// POST:/admin
+func handleAdmin(c echo.Context) error {
+	isAdmin, err := CheckRole(c, model.RoleAdmin)
+	if err != nil {
+		c.Echo().Logger.Debugf("Admin Page Role Error. [%s]", err)
+		isAdmin = false
+	}
+	if !isAdmin {
+		msg := "管理者でログインしていません。"
+		return c.Render(http.StatusOK, "error", msg)
+	}
+	users, err := userDA.FindAll()
+	if err != nil {
+		return c.Render(http.StatusOK, "error", err)
+	}
+	return c.Render(http.StatusOK, "admin", users)
 }
 
 // GET:/login
@@ -56,6 +77,15 @@ func handleLoginPost(c echo.Context) error {
 		msg := "ユーザーIDまたはパスワードが誤っています。"
 		data := map[string]string{"user_id": userID, "password": "", "msg": msg}
 		return c.Render(http.StatusOK, "login", data)
+	}
+	isAdmin, err := CheckRoleByUserID(userID, model.RoleAdmin)
+	if err != nil {
+		c.Echo().Logger.Debugf("Admin Role Check Error. [%s]", userID, err)
+		isAdmin = false
+	}
+	if isAdmin {
+		c.Echo().Logger.Debugf("User is Admin. [%s]", userID)
+		return c.Redirect(http.StatusTemporaryRedirect, "/admin")
 	}
 	return c.Redirect(http.StatusTemporaryRedirect, "/users/"+userID)
 }
