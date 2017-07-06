@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"net/http"
 
 	"./model"
 	"./session"
@@ -117,4 +118,21 @@ func CheckRoleByUserID(userID string, role model.Role) (bool, error) {
 	}
 
 	return false, nil
+}
+
+// MiddlewareAuthAdmin は管理者権限を持ったユーザーのみが参照できる
+// ページに適用するMiddlewareです。
+func MiddlewareAuthAdmin(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		isAdmin, err := CheckRole(c, model.RoleAdmin)
+		if err != nil {
+			c.Echo().Logger.Debugf("Admin Page Role Error. [%s]", err)
+			isAdmin = false
+		}
+		if !isAdmin {
+			msg := "管理者でログインしていません。"
+			return c.Render(http.StatusOK, "error", msg)
+		}
+		return next(c)
+	}
 }

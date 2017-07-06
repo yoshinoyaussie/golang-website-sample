@@ -1,0 +1,25 @@
+{{define "content"}}
+<h2>ユーザー一覧</h2>
+<hr />
+<table class="table">
+<thead class="thead">
+<tr>
+<th>User ID</th>
+<th>Full Name</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+{{range .}}
+<tr>
+<td>{{.UserID}}</td>
+<td>{{.FullName}}</td>
+<td>{{.Roles}}</td>
+</tr>
+{{end}}
+</tbody>
+</table>
+<form action="/admin" method="POST">
+    <input type="submit" value="管理者画面に戻る" style="width:150px"/>
+</form>
+{{end}}

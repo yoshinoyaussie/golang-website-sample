@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"html/template"
-	"io"
 	"os"
 	"os/signal"
 	"syscall"
@@ -25,15 +24,6 @@ var sessionManager *session.Manager
 
 // データアクセサのインスタンス
 var userDA *model.UserDataAccessor
-
-// Template はHTMLテンプレートを利用するためのRenderer Interfaceです。
-type Template struct {
-}
-
-// Render はHTMLテンプレートにデータを埋め込んだ結果をWriterに書き込みます。
-func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	return templates[name].ExecuteTemplate(w, "layout.html", data)
-}
 
 func main() {
 	// Echoのインスタンスを生成

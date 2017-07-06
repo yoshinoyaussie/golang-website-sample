@@ -1,15 +1,10 @@
 {{define "content"}}
 <h2>Administrator Page</h2>
-<table>
-<tr>
-<th>User ID</th><th>Full Name</th>
-</tr>
-{{range .}}
-<tr>
-<td>{{.UserID}}</td><td>{{.FullName}}</td>
-</tr>
-{{end}}
-</table>
+<hr />
+<form action="/admin/users" method="GET">
+    <input type="submit" value="ユーザー一覧" style="width:100px"/>
+</form>
+<hr />
 <form action="/logout" method="POST">
     <input type="submit" value="ログアウト" style="width:100px"/>
 </form>
