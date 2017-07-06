@@ -17,6 +17,7 @@ WebサイトのサーバーサイドをGoで一通り作っていっています
 * ひとまずコード整理 http://qiita.com/y_ussie/items/12bb4fd8cefb740581f8
 * ユーザー情報をJSONから読み込んで参照してみる http://qiita.com/y_ussie/items/8704ce209704bf191e63
 * ログインしたユーザーしか見られないページを作ってみる http://qiita.com/y_ussie/items/45d916f741e12c4ec9b7
+* 管理者のみ見られるページを作ってみる http://qiita.com/y_ussie/items/0052c83c9ec75b06bb6c
 
 ## コード全体構成
 
@@ -43,7 +44,9 @@ WebサイトのサーバーサイドをGoで一通り作っていっています
     ├─setting    設定関連の処理
     │      setting.go         設定データの定義
     └─templates  HTMLテンプレート
-            error.html        エラーメッセージ画面
+            admin.html        （管理者）ホーム画面
+            admin_users.html  （管理者）ユーザー一覧画面
+            error.html        エラーメッセージ画面
             index.html        index画面
             layout.html       共通レイアウト
             login.html        ログイン画面
