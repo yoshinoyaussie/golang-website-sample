@@ -29,7 +29,7 @@ func handleUsers(c echo.Context) error {
 	userID := c.Param("user_id")
 	err := CheckUserID(c, userID)
 	if err != nil {
-		c.Echo().Logger.Debugf("User Page[%s] Roll Error. [%s]", userID, err)
+		c.Echo().Logger.Debugf("User Page[%s] Role Error. [%s]", userID, err)
 		msg := "ログインしていません。"
 		return c.Render(http.StatusOK, "error", msg)
 	}
