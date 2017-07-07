@@ -4,27 +4,27 @@
         "user_id": "a-chan",
         "password": "5f4dcc3b5aa765d61d8327deb882cf99",
         "full_name": "Nishiwaki Ayaka",
-        "role": ["user"]
+        "roles": ["user"]
     },
     {
         "id": "e7bdce91-c9bb-4a29-91f8-750ad4b18bfa",
         "user_id": "kashiyuka",
         "password": "5f4dcc3b5aa765d61d8327deb882cf99",
         "full_name": "Kashino Yuka",
-        "role": ["user"]
+        "roles": ["user"]
     },
     {
         "id": "b87c826e-429b-4f50-aa35-b99f11a40b08",
         "user_id": "nocchi",
         "password": "5f4dcc3b5aa765d61d8327deb882cf99",
         "full_name": "Omoto Ayano",
-        "role": ["user"]
+        "roles": ["user"]
     },
     {
         "id": "c7a70e10-0c89-48ab-9b30-43fad782cbe4",
         "user_id": "admin",
         "password": "5f4dcc3b5aa765d61d8327deb882cf99",
         "full_name": "Administrator",
-        "role": ["user","admin"]
+        "roles": ["user","admin"]
     }
 ]

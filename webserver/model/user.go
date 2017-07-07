@@ -17,7 +17,7 @@ type User struct {
 	UserID   string    `json:"user_id"`
 	Password StringMD5 `json:"password"`
 	FullName string    `json:"full_name"`
-	Roles    []Role    `json:"role"`
+	Roles    []Role    `json:"roles"`
 }
 
 // Copy は情報のコピーを行います。
